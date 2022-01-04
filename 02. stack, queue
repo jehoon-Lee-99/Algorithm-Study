@@ -95,6 +95,27 @@ def solution(progresses, speeds):
 ●●●●● 프로그래머스) 프린터 문제 ●●●●●
 https://programmers.co.kr/learn/courses/30/lessons/42587
 
+def solution(p, l):
+    answer = 0
+    m = max(p)
+    while True:
+        a = p.pop(0)
+        if m == a:
+            answer += 1
+            if l == 0:
+                break
+            else:
+                l -= 1
+            m = max(p)
+        else:
+            p.append(a)
+            if l == 0:
+                l = len(p) - 1
+            else:
+                l -= 1
+            
+    return answer
+
 #######################################################################
 
 ●●●●● 프로그래머스) 주식가격 문제 ●●●●●
