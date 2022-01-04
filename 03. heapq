@@ -1,1 +1,55 @@
 힙은 특정한 규칙을 가지는 트리로, 최댓값과 최솟값을 찾는 연산을 빠르게 하기 위해 고안된 완전이진트리를 기본으로 한다.
+
+힙 property : A가 B의 부모노드이면 A의 키값과 B의 키값 사이에는 대소 관계가 성립한다
+최소 힙: 부모 노드의 키값이 자식 노드의 키값보다 항상 작은 힙
+최대 힙: 부모 노드의 키값이 자식 노드의 키값보다 항상 큰 힙
+
+이때 키값의 대소 관계는 부모/자식 간에만 성립하고, 형제노드 사이에는 대소 관계가 정해지지 않는다.
+
+파이썬은 최소힙을 지원
+####################################################################
+
+●●●●● 프로그래머스) 더 맵게 ●●●●●
+https://programmers.co.kr/learn/courses/30/lessons/42626
+
+<처음 내가 짠 코드>
+def solution(scoville, K):
+    answer = 0
+    s = scoville
+    while min(s) < K:
+        answer += 1
+        nh1 = s.pop(s.index(min(s)))
+        nh2 = s.pop(s.index(min(s)))
+        new = nh1 + 2*nh2
+        s.append(new)
+        
+        if len(s) == 1:
+          answer = -1
+          break
+    return answer
+
+문제 그대로 가장 작은 값의 인덱스를 찾아 이를 두번 pop하고 새로운 값을 넣는 방식을 채택했다.
+하지만 리스트의 길이가 길어질 경우 너무 많은 시간이 걸려, 런타임 오류가 떴다.
+
+문제를 해결하기 위해 힙을 사용한 방법을 찾았다.
+
+import heapq
+
+def solution(scoville, K):
+    answer = 0
+    heapq.heapify(scoville)
+    
+    while scoville[0] < K:
+        if len(scoville) == 1:
+            answer = -1
+            break
+        answer += 1
+        new = heapq.heappop(scoville) + 2 * heapq.heappop(scoville)
+        heapq.heappush(scoville, new)    
+
+    return answer
+ 
+사실 매커니즘은 똑같다. 차이점은 heapq를 사용하여 가장 작은값을 인덱스로 찾을 필요가 없다는 점?
+왜 이렇게 많은 속도차이가 나는지는 더 공부해 봐야겠다.
+
+★ 모듈 사용할때 import 뒤에 as를 사용해서 효율을 높이자 (ex. import heapq as hq)
