@@ -95,3 +95,27 @@ def solution(progresses, speeds):
 ●●●●● 프로그래머스) 프린터 문제 ●●●●●
 https://programmers.co.kr/learn/courses/30/lessons/42587
 
+#######################################################################
+
+●●●●● 프로그래머스) 주식가격 문제 ●●●●●
+https://programmers.co.kr/learn/courses/30/lessons/42584
+
+def solution(prices):
+    answer = []
+
+    while prices:
+        p = prices.pop(0)
+        count = 1
+        if len(prices) == 0:
+            answer.append(0)
+            break
+        for i in range(len(prices)-1):
+            if p <= prices[i]:
+                count += 1
+        answer.append(count)
+    return answer
+ 
+리스트를 큐처럼 취급해서 가장 앞에 있는 값을 pop 한뒤 나머지와 비교한다.
+마지막 값은 0을 반환해야하기 때문에 if문을 사용해주었다.
+해당 값보다 떨어진 값이 나올 경우 반복문을 멈추고 pop한 값이 떨어지지 않은 기간을 answer에 기록한다. (count)를 사용
+for문을 조금 더 간결하게 작성하면 for q in prices 이런식으로 작성 할 수 있다. 
