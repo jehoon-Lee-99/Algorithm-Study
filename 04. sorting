@@ -6,7 +6,8 @@ join 함수는 매개변수로 들어온 리스트에 있는 요소 하나하나
 '구분자'.join(리스트)를 이용하면 리스트의 값과 값 사이에 '구분자'에 들어온 구분자를 넣어서 하나의 문자열로 합쳐줍니다.
 '_'.join(['a', 'b', 'c']) 라 하면 "a_b_c" 와 같은 형태로 문자열을 만들어서 반환해 줍니다.
 
-■ 람다
+
+■ lambda
 lambda는 쓰고 버리는 일시적인 함수
 >>> g = lambda x: x**2
 >>> print(g(8))
@@ -16,4 +17,69 @@ lambda는 쓰고 버리는 일시적인 함수
 >>> print(f(4, 4))
 8
 
+>>> lambda 매개변수: 식1 if 조건 else, 식2
+ex> lambda x: str(x) if x % 3 == 0 else x
+
+a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+list(map(lambda x: str(x) if x % 3 == 0 else x, a))
+이런식으로 3의 배수에선 str을 반환하도록 할 수 도 있다.
+
+
+■ enumerate
+반복문 사용시 몇번째 반복문인지 확인하기 위한 방법이다.
+    t = [1, 5, 7, 33, 39, 52]
+    for p in enumerate(t):
+...     print(p)
+... 
+(0, 1)
+(1, 5)
+(2, 7)
+(3, 33)
+(4, 39)
+(5, 52)
+
+
+■ map(지정함수, 리스트)
+map은 리스트의 요소를 지정된 함수로 처리해주는 함수
+    
+    a = [1.2, 2.5, 3.7, 4.6]
+    a = list(map(int, a))
+    [1, 2, 3, 4]
+map을 활용하여 요소들을 정수로 바꿔주는 방법이다.
+
+x = input().split()    # input().split()의 결과는 문자열 리스트
+m = map(int, x)        # 리스트의 요소를 int로 변환, 결과는 맵 객체
+a, b = m               # 맵 객체는 변수 여러 개에 저장할 수 있음
+
 ■ filter()
+
+
+
+############################################################
+
+●●●● 프로그래머스) H-index ●●●●
+    def solution(citations):
+        answer = 0
+        citations.sort()
+        for c in citations:
+            a = list(map(lambda x: x if x>=c else 0, citations))  ### c보다 작은 수는 0으로 처리
+            if (len(a) - a.count(0)) >= c:   ### c번 이상 인용된 논문이 c개 이상일 경우
+                answer = c
+            else:
+                break   ### sorting을 했기 때문에 멈춰도 상관 없음. (더 큰 수)
+        return answer
+        
+저번에 배운 map, lambda를 활용하는 방법을 사용하였다.
+작은값부터 시작해서, 
+코드에는 문제가 없는 것 같은데, 11,16 테스트를 제외한 나머지 케이스를 통과하지 못했다.
+그래서 다른 코드를 참고하였다...
+어짜피 sorting을 하기때문에 0으로 만들어줄 필요가 없고, 반복한 수(idx) = 특정 값보다 작은 값 이기 때문에
+전체 논문 수(len(citaions)) - idx = h 가 된다.
+
+      def solution(citations):
+          answer = 0
+          citations.sort()
+          for idx,citation in enumerate(citations):
+              if citation >= len(citations) - idx :
+                  return len(citations) - idx
+          return 0
