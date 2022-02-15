@@ -23,6 +23,7 @@ def gcd(a,b):
 
 ■ DFS (Depth-First Search, 깊이 우선 탐색)
 스택 자료구조(혹은 재귀함수)를 이용
+
 1. 탐색 시작 노드를 스택에 삽입하고 방문처리
 2. 스택의 최상단 노드에 방문하지 않은 인접 노드가 있다면, 노드를 스택에 넣고 방문처리
    방문하지 않은 인접 노드가 없다면, 최상단 노드를 꺼냄
@@ -43,3 +44,34 @@ visited = [False] * 9
 
 # 정의된 DFS 함수 호출
 dfs(grapgh, 1, visited)
+
+
+■ BFS (Breadth-First Search, 너비 우선 탐색) -> 간선의 길이가 같을 때 최단거리 계산으로 사용 가능
+큐 자료구조를 이용하며, 가까운 노드부터 우선적으로 탐색
+
+1. 탐색 시작 노드를 큐에 삽입하고 방문처리
+2. 큐에서 노드를 꺼낸 뒤 해당 노드의 인전 노드 중 방문하지 않은 노드를 모두 큐에 삽입, 방문처리
+3. 더 이상 2번 과정을 수행할 수 없을 때까지 반복
+
+from collections import deque
+
+def bfs(graph, start, visited):
+	queue = deque([strat])   # queue 구현을 위해 라이브러리 사용
+	visited[start] = True    # 현재 노드를 방문처리
+	while queue:    # 큐가 빌 때까지 반복하기
+  	v = queue.popleft()
+  	print(v, end=' ')
+  	for i in graph[v]:     # 방문하지 않은 노드를 큐에 사입
+    	if not visited[i]:
+      	queue.append(i)
+      	visited[i] = True
+
+# 각 노드의 연결정보
+grapgh = [[],[2,3,8],[1,7],[1,4,5],[3,5],[3,4],[7],[2,6,8],[1,7]]
+
+# 각 노드가 방문된 정보
+visited = [False] * 9
+
+# 정의된 DFS 함수 호출
+bfs(grapgh, 1, visited)
+###############################################
