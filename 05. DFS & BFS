@@ -76,3 +76,49 @@ visited = [False] * 9
 bfs(grapgh, 1, visited)
 
 ###############################################
+
+●●●●● 백준 1260번 ●●●●●
+# DFS
+def dfs(n):
+    print(n, end=' ')
+    visit[n] = True
+    for i in matrix[n]:
+        if visit[i] == False:
+            dfs(i)
+#BFS      
+from collections import deque
+def bfs(n):
+    queue = deque([n])
+    visit[n] = True
+    while queue:
+        m = queue.popleft()
+        print(m, end = ' ')
+        for i in matrix[m]:
+            if visit[i] == False:
+                queue.append(i)
+                visit[i] = True
+                
+# 공백을 기준으로 입력받기
+n,m,v = map(int, input().split())
+# 방문 확인을 위한 리스트 (첫번째 리스트가 1 인덱스에 오도록 리스트를 하나 더 생성)
+visit = [False] * (n+1)
+# 2차원 리스트 맵정보 받기
+graph = []
+for i in range(m):
+    graph.append(list(map(int,input().split())))
+    
+# 갈 수 있는 행렬 그리기
+matrix = [[] for i in range(n+1)]
+for lst in graph:
+    a = lst[0]
+    b = lst[1]
+    matrix[a].append(b)
+    matrix[b].append(a)
+    
+for i in range(n+1):
+    matrix[i].sort()
+    
+dfs(v)
+print()
+visit = [False] * (n+1)
+bfs(v)
