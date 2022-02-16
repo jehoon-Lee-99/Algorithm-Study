@@ -122,3 +122,43 @@ dfs(v)
 print()
 visit = [False] * (n+1)
 bfs(v)
+
+
+●●●●● 백준 7576번 ●●●●●
+# bfs 문제를 풀기위한 deque 모듈 호출
+from collections import deque
+
+# 입력값을 받아오기, box는 이중리스트 구조로 저장
+m,n = map(int, input().split())
+box = []
+for i in range(m):
+	box.append(list(map(int ,input().split())))
+# 일수를 계산할 변수와, 사방표, 큐
+day = 0
+dx = [-1,1,0,0] # 열
+dy = [0,0,-1,1] # 행
+queue = deque([])	# 위치를 담아야하기 때문에 리스트형태로 사용
+
+# box에 1이 있는 위치를 탐색후 리스트에 저장
+for i in range(n):
+    for j in range(m):
+        if box[i][j] == 1:
+            queue.append([i, j])
+
+def find():
+	while queue:
+		x,y = queue.popleft()
+		for i in range(4):
+			nx,ny = dx[i]+x, dy[i]+y	# 익을 토마토좌표
+			if 0<=nx<n and 0<=ny<m and box[nx][ny] == 0:	# box안으로 제한, 안익은 토마토가 있다면
+				box[nx][ny] = box[x][y] + 1		# 익은 일자를 계산(저장)
+				queue.append([nx,ny])		# 큐에 익은 토마토 위치를 추가
+				
+find()
+for lst in box:
+	for j in lst:
+		if j == 0:	# 못익힌 토마토가 있는 경우
+			print(-1)	# -1을 출력
+			exit(0)
+	day = max(day,max(lst)) # 해당 행의 최대값을 비교 (가장 오래걸린 토마토 찾기)
+print(day - 1)
