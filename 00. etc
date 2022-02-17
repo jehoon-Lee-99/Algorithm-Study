@@ -1,4 +1,4 @@
-백준 1149번 (RGB)
+### 백준 1149번 (RGB)
 부분합 최소 구하기
 
 n = int(input())
@@ -10,3 +10,36 @@ for i in range(1, len(p)):
     p[i][1] = min(p[i - 1][0], p[i - 1][2]) + p[i][1]
     p[i][2] = min(p[i - 1][0], p[i - 1][1]) + p[i][2]
 print(min(p[n - 1][0], p[n - 1][1], p[n - 1][2]))
+
+
+### 백준 2178번
+BFS를 활용한 풀이, 예시로 나온 입력은 모두 정상출력 되지만 제출시 런타임에러 발생
+
+n,m = map(int,input().split())
+p = []
+for i in range(n):
+    p.append(int(input()))
+M = []
+for i in range(n):
+    M.append(list(map(int,str(p[i]))))
+dx, dy = [1,-1,0,0],[0,0,1,-1]
+
+from collections import deque
+queue = deque([]) #시작점
+queue.append([0,0])
+
+while queue:
+    x,y = queue.popleft()
+
+    for i in range(4):
+        nx,ny = x+dx[i],y+dy[i]
+        if 0<=nx<n and 0<=ny<m:
+            if M[nx][ny] == 1:
+                M[nx][ny] = M[x][y] +1
+                queue.append([nx,ny])
+                if nx == n-1 and ny == m-1:                  
+                    break
+        if x==0 and y==0 and i==3:
+            M[0][0] = 0
+
+print(M[n-1][m-1])
