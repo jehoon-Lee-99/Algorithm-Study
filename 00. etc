@@ -64,3 +64,18 @@ while queue:
             queue.append([x, y])
             s[x][y] = s[a][b] + 1
 print(s[n - 1][m - 1])
+
+
+### 백준 2667번
+
+def bfs():
+    for j in range(4):
+        x,y = where1[0]
+        where1.remove([x,y]) #리스트에서 삭제
+        nx, ny = x+dx[j], y+dy[j]
+        if [nx,ny] in where1: #인접한 집이 있을경우
+            bfs()
+        else:
+            counter += 1
+            house.append([])
+            bfs()
