@@ -104,3 +104,29 @@ def bfs():
 
 g,h = map(int,input().split())
 bfs()
+
+
+### 백준 1987번 알파벳
+r,c = map(int,input().split())
+MAP = [list(input()) for i in range(r)]
+answer = 1
+dx, dy = [0,0,1,-1],[1,-1,0,-0]
+
+def DFS(x, y, ans):
+    global answer
+
+    answer = max(ans, answer)
+
+    # 좌우상하 다 확인한다
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+
+        # index 벗어나지 않는지 체크하고, 새로운 칸이 중복되는 알파벳인지 체크한다
+        if ((0 <= nx < R) and (0 <= ny < C)) and (board[nx][ny] not in passed):
+            passed.append(board[nx][ny])
+            DFS(nx, ny, ans+1)
+            passed.remove(board[nx][ny])
+
+DFS(0, 0, answer)
+print(answer)
