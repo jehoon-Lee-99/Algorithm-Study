@@ -107,6 +107,9 @@ bfs()
 
 
 ### 백준 1987번 알파벳
+이미 방문했던 경로를 방지할 수 있는 수단이 필요
+2차원의 리스트를 사용하기 보다는 최고기록을 기록하고, 알파벳 26개에 대한 체크를 하는것이 빠르다
+
 r,c = map(int,input().split())
 MAP = [list(input()) for i in range(r)]
 answer = 1
@@ -119,9 +122,8 @@ def DFS(x, y, ans):
 
     # 좌우상하 다 확인한다
     for i in range(4):
-        nx = x + dx[i]
-        ny = y + dy[i]
-
+        nx,ny = x + dx[i],y + dy[i]
+        
         # index 벗어나지 않는지 체크하고, 새로운 칸이 중복되는 알파벳인지 체크한다
         if ((0 <= nx < R) and (0 <= ny < C)) and (board[nx][ny] not in passed):
             passed.append(board[nx][ny])
