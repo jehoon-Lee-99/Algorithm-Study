@@ -110,25 +110,35 @@ bfs()
 이미 방문했던 경로를 방지할 수 있는 수단이 필요
 2차원의 리스트를 사용하기 보다는 최고기록을 기록하고, 알파벳 26개에 대한 체크를 하는것이 빠르다
 
-r,c = map(int,input().split())
-MAP = [list(input()) for i in range(r)]
-answer = 1
-dx, dy = [0,0,1,-1],[1,-1,0,-0]
+-set함수 공부하기, 코드 다시 읽어보기
 
-def DFS(x, y, ans):
-    global answer
+from collections import deque
 
-    answer = max(ans, answer)
+dx=[1,-1,0,0]
+dy=[0,0,1,-1]
 
-    # 좌우상하 다 확인한다
+def bfs():
+  result = 1
+  queue = set([(0,0,board[0][0])])
+
+  while queue: 
+    x,y,visited=queue.pop()
+
     for i in range(4):
-        nx,ny = x + dx[i],y + dy[i]
-        
-        # index 벗어나지 않는지 체크하고, 새로운 칸이 중복되는 알파벳인지 체크한다
-        if ((0 <= nx < R) and (0 <= ny < C)) and (board[nx][ny] not in passed):
-            passed.append(board[nx][ny])
-            DFS(nx, ny, ans+1)
-            passed.remove(board[nx][ny])
+      nx=x+dx[i]
+      ny=y+dy[i]
+      if nx<0 or nx>=r or ny<0 or ny>=c:
+        continue
+      elif board[nx][ny] not in visited:
+        next_visited=visited+board[nx][ny]
+        queue.add((nx,ny,next_visited))
+        result=max(result,len(next_visited))
 
-DFS(0, 0, answer)
-print(answer)
+  return result
+  
+r,c=map(int, input().split())
+board=[]
+for i in range(r):
+  board.append(list(input()))
+
+print(bfs())
